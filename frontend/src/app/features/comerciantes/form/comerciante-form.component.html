@@ -1,0 +1,209 @@
+<div class="form-page-layout">
+  <div class="form-container">
+    <!-- Titulo del formulario / Nombre del comerciante en edicion -->
+    <div class="form-title-bar">
+      <h2 class="merchant-title">
+        @if (isEditMode) {
+          {{ comercianteActual?.nombreRazonSocial || 'Editar Comerciante' }}
+        } @else {
+          Crear Nuevo Comerciante
+        }
+      </h2>
+      <button type="button" class="btn-back" (click)="onCancelar()">
+        &larr; Volver a la lista
+      </button>
+    </div>
+
+    <!-- Tarjeta del Formulario -->
+    <div class="form-card">
+      <div class="card-section-header">
+        <h3 class="section-subtitle">Datos Generales</h3>
+      </div>
+
+      @if (isLoading) {
+        <div class="form-loader">
+          <span class="spinner-blue"></span> Cargando datos del comerciante...
+        </div>
+      } @else {
+        <form [formGroup]="comercianteForm" (ngSubmit)="onSubmit()" class="merchant-form" novalidate>
+          <div class="form-grid">
+            <!-- Columna Izquierda -->
+            <div class="grid-column">
+              <!-- Razón Social -->
+              <div class="form-group">
+                <label for="nombreRazonSocial">Razón Social <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="nombreRazonSocial"
+                  formControlName="nombreRazonSocial"
+                  class="form-control"
+                  placeholder="Ingrese el nombre o razón social"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('nombreRazonSocial')?.invalid}"
+                />
+                @if (isSubmitted && comercianteForm.get('nombreRazonSocial')?.errors?.['required']) {
+                  <small class="error-text">El Nombre o Razón Social es obligatorio.</small>
+                }
+                @if (isSubmitted && comercianteForm.get('nombreRazonSocial')?.errors?.['maxlength']) {
+                  <small class="error-text">Máximo 150 caracteres permitidos.</small>
+                }
+              </div>
+
+              <!-- Departamento -->
+              <div class="form-group">
+                <label for="departamento">Departamento <span class="required">*</span></label>
+                <select
+                  id="departamento"
+                  formControlName="departamento"
+                  class="form-select"
+                  (change)="onDepartamentoChange($any($event.target).value)"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('departamento')?.invalid}"
+                >
+                  <option value="">Seleccione un departamento</option>
+                  @for (dept of departamentos; track dept) {
+                    <option [value]="dept">{{ dept }}</option>
+                  }
+                </select>
+                @if (isSubmitted && comercianteForm.get('departamento')?.errors?.['required']) {
+                  <small class="error-text">Debe seleccionar un departamento.</small>
+                }
+              </div>
+
+              <!-- Ciudad / Municipio (Reto 06) -->
+              <div class="form-group">
+                <label for="idMunicipio">Ciudad <span class="required">*</span></label>
+                <select
+                  id="idMunicipio"
+                  formControlName="idMunicipio"
+                  class="form-select"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('idMunicipio')?.invalid}"
+                >
+                  <option value="">Seleccione una ciudad</option>
+                  @for (mun of municipiosFiltrados; track mun.idMunicipio) {
+                    <option [value]="mun.idMunicipio">{{ mun.nombre }}</option>
+                  }
+                </select>
+                @if (isSubmitted && comercianteForm.get('idMunicipio')?.errors?.['required']) {
+                  <small class="error-text">Debe seleccionar una ciudad / municipio.</small>
+                }
+              </div>
+
+              <!-- Teléfono (Opcional) -->
+              <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input
+                  type="text"
+                  id="telefono"
+                  formControlName="telefono"
+                  class="form-control"
+                  placeholder="Ej: +57 1 234 5678"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('telefono')?.invalid}"
+                />
+                @if (isSubmitted && comercianteForm.get('telefono')?.errors?.['pattern']) {
+                  <small class="error-text">El formato del teléfono no es válido.</small>
+                }
+              </div>
+            </div>
+
+            <!-- Columna Derecha -->
+            <div class="grid-column">
+              <!-- Correo Electrónico (Opcional) -->
+              <div class="form-group">
+                <label for="correoElectronico">Correo electrónico</label>
+                <input
+                  type="email"
+                  id="correoElectronico"
+                  formControlName="correoElectronico"
+                  class="form-control"
+                  placeholder="ejemplo@empresa.com"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('correoElectronico')?.invalid}"
+                />
+                @if (isSubmitted && comercianteForm.get('correoElectronico')?.errors?.['email']) {
+                  <small class="error-text">Ingrese un correo electrónico válido.</small>
+                }
+              </div>
+
+              <!-- Fecha de Registro -->
+              <div class="form-group">
+                <label for="fechaRegistro">Fecha de registro <span class="required">*</span></label>
+                <input
+                  type="date"
+                  id="fechaRegistro"
+                  formControlName="fechaRegistro"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('fechaRegistro')?.invalid}"
+                />
+                @if (isSubmitted && comercianteForm.get('fechaRegistro')?.errors?.['required']) {
+                  <small class="error-text">La fecha de registro es obligatoria.</small>
+                }
+              </div>
+
+              <!-- Estado -->
+              <div class="form-group">
+                <label for="estado">Estado <span class="required">*</span></label>
+                <select
+                  id="estado"
+                  formControlName="estado"
+                  class="form-select"
+                  [ngClass]="{'is-invalid': isSubmitted && comercianteForm.get('estado')?.invalid}"
+                >
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+              </div>
+
+              <!-- Checkbox Posee Establecimientos -->
+              <div class="form-group checkbox-container">
+                <label class="custom-checkbox">
+                  <input
+                    type="checkbox"
+                    formControlName="poseeEstablecimientos"
+                  />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label-text">¿Posee establecimientos?</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      }
+    </div>
+  </div>
+
+  <!-- Barra Footer Inferior (Reto 11 - Prototipo Página 10) -->
+  <footer class="footer-totals-bar">
+    <div class="totals-container">
+      @if (isEditMode) {
+        <div class="total-metric metric-ingresos">
+          <span class="metric-label">Total Ingresos Formulario:</span>
+          <span class="metric-value">{{ totalIngresos | currencyCop }}</span>
+        </div>
+
+        <div class="total-metric metric-empleados">
+          <span class="metric-label">Cantidad de empleados:</span>
+          <span class="metric-value">{{ totalEmpleados }}</span>
+        </div>
+      } @else {
+        <div class="total-metric metric-info">
+          <span class="metric-label">Creación de Nuevo Comerciante</span>
+          <span class="metric-desc">Complete los campos requeridos para dar de alta al comerciante.</span>
+        </div>
+      }
+
+      <div class="footer-submit-action">
+        <span class="action-prompt">Si ya ingresaste todos los datos, crea tu formulario aquí</span>
+        <button
+          type="button"
+          class="btn-submit-form"
+          (click)="onSubmit()"
+          [disabled]="isSaving || isLoading"
+        >
+          @if (isSaving) {
+            Guardando...
+          } @else {
+            Enviar Formulario
+          }
+        </button>
+      </div>
+    </div>
+  </footer>
+</div>

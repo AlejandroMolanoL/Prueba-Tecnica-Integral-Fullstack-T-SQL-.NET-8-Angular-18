@@ -1,0 +1,250 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f1f5f9;
+}
+
+.login-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0284c7;
+      line-height: 1;
+
+      .logo-accent {
+        color: #06b6d4;
+      }
+    }
+
+    .logo-subtext {
+      font-size: 8.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #64748b;
+      line-height: 1.1;
+    }
+  }
+
+  .header-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+
+    .action-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #475569;
+    }
+  }
+}
+
+.login-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.65)),
+              radial-gradient(circle at 70% 30%, #38bdf8 0%, #0284c7 40%, #0f172a 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.login-card-container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 36px 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  text-align: center;
+
+  .card-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+  }
+
+  .card-subtitle {
+    font-size: 12.5px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+    line-height: 1.4;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .form-control {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1e293b;
+    background: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    &.is-invalid {
+      border-color: #ef4444;
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  .error-feedback {
+    font-size: 11.5px;
+    color: #ef4444;
+    padding-left: 2px;
+  }
+}
+
+.checkbox-group {
+  margin: 4px 0 8px 0;
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+
+    .form-checkbox {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: #e91e63;
+    }
+
+    .checkbox-text {
+      font-size: 13px;
+      color: #475569;
+    }
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  height: 44px;
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+
+  &:hover:not(:disabled) {
+    background: #d81b60;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    background: #f48fb1;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.quick-credentials {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .quick-title {
+    font-size: 11.5px;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .quick-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+
+    .btn-quick {
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #334155;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #e2e8f0;
+      }
+    }
+  }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

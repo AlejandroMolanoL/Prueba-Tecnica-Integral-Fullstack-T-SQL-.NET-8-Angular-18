@@ -1,0 +1,281 @@
+{
+  "info": {
+    "_postman_id": "9a38f7a2-7b19-4b3d-b4ef-1e9d89283921",
+    "name": "Comerciantes App API - OL Software",
+    "description": "Colección completa de endpoints para la evaluación técnica Fullstack .NET 8 / Angular.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Seguridad (Reto 05)",
+      "item": [
+        {
+          "name": "1. Login Administrador",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('Token JWT almacenado exitosamente');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correoElectronico\": \"admin@olsoftware.com\",\n  \"contrasena\": \"Admin123*\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "2. Login Auxiliar de Registro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    console.log('Token JWT Auxiliar almacenado');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correoElectronico\": \"auxiliar@olsoftware.com\",\n  \"contrasena\": \"Auxiliar123*\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listas de Valores (Reto 06)",
+      "item": [
+        {
+          "name": "Obtener Municipios (En Memoria Cache)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/municipios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "municipios"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CRUD Comerciantes (Reto 07)",
+      "item": [
+        {
+          "name": "Consulta Paginada (Filtros y 5 por pagina)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes?pageNumber=1&pageSize=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes"],
+              "query": [
+                { "key": "pageNumber", "value": "1" },
+                { "key": "pageSize", "value": "5" },
+                { "key": "nombreRazonSocial", "value": "", "disabled": true },
+                { "key": "estado", "value": "Activo", "disabled": true },
+                { "key": "fechaRegistro", "value": "2024-01-15", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar por Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Crear Comerciante",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreRazonSocial\": \"Comercializadora Nueva Colombia S.A.S.\",\n  \"idMunicipio\": 1,\n  \"telefono\": \"+57 1 789 4561\",\n  \"correoElectronico\": \"contacto@nuevacolombia.com\",\n  \"fechaRegistro\": \"2024-06-01\",\n  \"estado\": \"Activo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Comerciante",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreRazonSocial\": \"Comercializadora Nueva Colombia S.A.S. Editada\",\n  \"idMunicipio\": 2,\n  \"telefono\": \"+57 4 999 8877\",\n  \"correoElectronico\": \"contacto@nuevacolombia.com\",\n  \"fechaRegistro\": \"2024-06-01\",\n  \"estado\": \"Activo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes", "1"]
+            }
+          }
+        },
+        {
+          "name": "Modificar Estado (HTTP PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Inactivo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes/1/estado",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes", "1", "estado"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Comerciante (Solo Administrador)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes", "5"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reporte Comerciantes (Reto 08)",
+      "item": [
+        {
+          "name": "Descargar CSV Delimitado por Pipe (Solo Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comerciantes/reporte-csv",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "comerciantes", "reporte-csv"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

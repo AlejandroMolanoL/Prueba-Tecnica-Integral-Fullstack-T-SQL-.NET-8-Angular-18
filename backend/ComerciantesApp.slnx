@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ComerciantesApp.Application/ComerciantesApp.Application.csproj" />
+    <Project Path="src/ComerciantesApp.Domain/ComerciantesApp.Domain.csproj" />
+    <Project Path="src/ComerciantesApp.Infrastructure/ComerciantesApp.Infrastructure.csproj" />
+    <Project Path="src/ComerciantesApp.WebApi/ComerciantesApp.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ComerciantesApp.Tests/ComerciantesApp.Tests.csproj" />
+  </Folder>
+</Solution>

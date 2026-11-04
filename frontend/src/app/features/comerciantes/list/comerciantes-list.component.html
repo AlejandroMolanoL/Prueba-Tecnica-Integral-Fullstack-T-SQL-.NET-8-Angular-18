@@ -1,0 +1,258 @@
+<div class="comerciantes-page">
+  <div class="content-container">
+    <!-- Encabezado de la seccion -->
+    <div class="section-header">
+      <h2 class="section-title">Lista Formularios Creados</h2>
+      <div class="action-buttons">
+        <button type="button" class="btn-create" (click)="onCrearNuevo()">
+          Crear Formulario Nuevo
+        </button>
+
+        @if (authStore.isAdmin()) {
+          <button type="button" class="btn-download-csv" (click)="onDescargarReporteCsv()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Descargar Reporte en CSV
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Barra de Filtros de Busqueda -->
+    <div class="filters-card">
+      <div class="filter-item">
+        <label for="filtroNombre">Nombre o Razón Social</label>
+        <input
+          type="text"
+          id="filtroNombre"
+          [(ngModel)]="filtroNombre"
+          (keyup.enter)="onBuscar()"
+          placeholder="Buscar comerciante..."
+          class="filter-input"
+        />
+      </div>
+
+      <div class="filter-item">
+        <label for="filtroEstado">Estado</label>
+        <select id="filtroEstado" [(ngModel)]="filtroEstado" class="filter-select">
+          <option value="">Todos los estados</option>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="filtroFecha">Fecha de Registro</label>
+        <input
+          type="date"
+          id="filtroFecha"
+          [(ngModel)]="filtroFecha"
+          class="filter-input"
+        />
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="btn-filter" (click)="onBuscar()">
+          Filtrar
+        </button>
+        <button type="button" class="btn-clear" (click)="onLimpiarFiltros()">
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla de Comerciantes -->
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Razón Social</th>
+              <th>Teléfono</th>
+              <th>Correo Electrónico</th>
+              <th>Fecha Registro</th>
+              <th class="text-center">No. Establecimientos</th>
+              <th class="text-center">Estado</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (store.isLoading()) {
+              <tr>
+                <td colspan="7" class="state-cell">
+                  <div class="loader-inline">
+                    <span class="spinner-blue"></span> Cargando comerciantes...
+                  </div>
+                </td>
+              </tr>
+            } @else if (store.comerciantes().length === 0) {
+              <tr>
+                <td colspan="7" class="state-cell empty-cell">
+                  No se encontraron comerciantes registrados con los criterios seleccionados.
+                </td>
+              </tr>
+            } @else {
+              @for (c of store.comerciantes(); track c.idComerciante) {
+                <tr>
+                  <td class="font-medium text-dark">{{ c.nombreRazonSocial }}</td>
+                  <td class="text-muted">{{ c.telefono || 'Sin teléfono' }}</td>
+                  <td class="text-muted">{{ c.correoElectronico || 'Sin correo' }}</td>
+                  <td class="text-muted">{{ c.fechaRegistro | date:'yyyy-MM-dd' }}</td>
+                  <td class="text-center font-bold">{{ c.cantidadEstablecimientos }}</td>
+                  <td class="text-center">
+                    <button
+                      type="button"
+                      class="badge-status"
+                      [ngClass]="c.estado === 'Activo' ? 'status-activo' : 'status-inactivo'"
+                      (click)="onToggleEstado(c)"
+                      title="Haga clic para alternar estado"
+                    >
+                      {{ c.estado }}
+                    </button>
+                  </td>
+                  <td class="text-center">
+                    <div class="action-cell-buttons">
+                      <!-- Editar registro -->
+                      <button
+                        type="button"
+                        class="btn-action btn-edit"
+                        (click)="onEditar(c)"
+                        title="Editar Comerciante"
+                      >
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                      </button>
+
+                      <!-- Activar/Inactivar -->
+                      <button
+                        type="button"
+                        class="btn-action btn-toggle"
+                        (click)="onToggleEstado(c)"
+                        [title]="c.estado === 'Activo' ? 'Inactivar Comerciante' : 'Activar Comerciante'"
+                      >
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                          <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+                        </svg>
+                      </button>
+
+                      <!-- Eliminar (Solo Administrador) -->
+                      @if (authStore.isAdmin()) {
+                        <button
+                          type="button"
+                          class="btn-action btn-delete"
+                          (click)="onConfirmarEliminar(c)"
+                          title="Eliminar Comerciante (Solo Administrador)"
+                        >
+                          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                          </svg>
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Barra de Paginacion -->
+      <div class="pagination-bar">
+        <div class="page-size-selector">
+          <label for="itemsPerPage">Ítems</label>
+          <select id="itemsPerPage" [value]="store.pageSize()" (change)="onCambiarPageSize($event)" class="select-page-size">
+            @for (opt of pageSizeOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="pagination-controls">
+          <button
+            type="button"
+            class="btn-page-nav"
+            [disabled]="store.pageNumber() <= 1"
+            (click)="onCambiarPagina(1)"
+            title="Primera página"
+          >
+            |&lt;
+          </button>
+          <button
+            type="button"
+            class="btn-page-nav"
+            [disabled]="store.pageNumber() <= 1"
+            (click)="onCambiarPagina(store.pageNumber() - 1)"
+            title="Página anterior"
+          >
+            &lt;
+          </button>
+
+          @for (page of getArrayPaginas(); track page) {
+            <button
+              type="button"
+              class="btn-page-number"
+              [ngClass]="{'active': page === store.pageNumber()}"
+              (click)="onCambiarPagina(page)"
+            >
+              {{ page }}
+            </button>
+          }
+
+          <button
+            type="button"
+            class="btn-page-nav"
+            [disabled]="store.pageNumber() >= store.totalPages()"
+            (click)="onCambiarPagina(store.pageNumber() + 1)"
+            title="Página siguiente"
+          >
+            &gt;
+          </button>
+          <button
+            type="button"
+            class="btn-page-nav"
+            [disabled]="store.pageNumber() >= store.totalPages()"
+            (click)="onCambiarPagina(store.totalPages())"
+            title="Última página"
+          >
+            &gt;|
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de pagina estandar -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span class="footer-legal">Prueba Técnica De Uso Exclusivo de OLSoftware S.A.</span>
+      <div class="footer-logo">
+        <span class="logo-text">OL<span class="logo-accent">.</span></span>
+        <span class="logo-subtext">Software & Development</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal de confirmacion de eliminacion -->
+  @if (comercianteAEliminar) {
+    <div class="modal-backdrop">
+      <div class="modal-card">
+        <h3 class="modal-title">¿Confirmar eliminación?</h3>
+        <p class="modal-body">
+          ¿Está seguro de que desea eliminar al comerciante <strong>{{ comercianteAEliminar.nombreRazonSocial }}</strong>?
+          Esta acción también eliminará sus {{ comercianteAEliminar.cantidadEstablecimientos }} establecimientos asociados.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="onCancelarEliminar()" [disabled]="isEliminando">
+            Cancelar
+          </button>
+          <button type="button" class="btn-confirm-delete" (click)="onEjecutarEliminar()" [disabled]="isEliminando">
+            @if (isEliminando) { Eliminando... } @else { Sí, Eliminar }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
