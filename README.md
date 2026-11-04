@@ -206,8 +206,57 @@ Solución completa, robusta y profesional desarrollada para la prueba técnica i
 
 El proyecto cuenta con orquestación completa para levantar la totalidad de los servicios con un solo comando:
 
+### 1. Iniciar los servicios
 ```bash
+# Iniciar en primer plano (permite ver logs consolidados de todos los servicios)
 docker compose up --build
+
+# O iniciar en segundo plano (modo detached / silencioso)
+docker compose up -d --build
+```
+
+### 2. Detener los servicios
+Para detener la ejecución de los contenedores según la necesidad:
+
+```bash
+# Opción A: Si se inició en primer plano, presionar Ctrl + C en la terminal
+
+# Opción B: Detener los contenedores pausando su ejecución (conserva estados y datos)
+docker compose stop
+
+# Opción C: Detener y remover los contenedores y redes (conserva la base de datos en volumen)
+docker compose down
+
+# Opción D: Detención total y limpieza completa (elimina contenedores, redes y datos de BD para reiniciar desde cero)
+docker compose down -v
+```
+
+### 3. Volver a ejecutar los servicios
+Para reanudar o reiniciar la aplicación:
+
+```bash
+# Iniciar contenedores existentes previamente detenidos (arranque ultra-rápido sin recompilar)
+docker compose start
+
+# O volver a levantar los servicios asegurando que todo esté activo
+docker compose up -d
+
+# Si se realizaron modificaciones en el código fuente (.NET o Angular), reconstruir e iniciar
+docker compose up -d --build
+```
+
+### 4. Monitoreo y Diagnóstico de Contenedores
+```bash
+# Consultar el estado de salud (health status) de los contenedores
+docker compose ps
+
+# Visualizar los logs en tiempo real de todos los servicios
+docker compose logs -f
+
+# Visualizar únicamente los logs del backend o de la base de datos
+docker compose logs -f backend
+docker compose logs -f database
+docker compose logs -f frontend
 ```
 
 ### Servicios Disponibles:
@@ -390,6 +439,8 @@ cd backend
 dotnet run --project src/ComerciantesApp.WebApi
 ```
 - Swagger UI disponible en la raíz: `http://localhost:5000/`
+- **Detener:** Presionar `Ctrl + C` en la terminal.
+- **Volver a ejecutar:** Ejecutar nuevamente `dotnet run --project src/ComerciantesApp.WebApi`.
 
 ---
 
@@ -408,6 +459,8 @@ cd frontend
 npm start
 ```
 - Aplicación disponible en el navegador en: `http://localhost:4200/`
+- **Detener:** Presionar `Ctrl + C` en la terminal.
+- **Volver a ejecutar:** Ejecutar nuevamente `npm start`.
 
 #### Compilación para Producción:
 ```bash
