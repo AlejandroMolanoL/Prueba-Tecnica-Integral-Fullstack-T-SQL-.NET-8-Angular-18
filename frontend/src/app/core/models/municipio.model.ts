@@ -5,3 +5,4 @@ export interface Municipio {
   codigoDANE?: string;
   nombreCompleto: string;
 }
+

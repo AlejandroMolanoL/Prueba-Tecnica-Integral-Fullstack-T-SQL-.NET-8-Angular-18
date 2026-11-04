@@ -9,3 +9,4 @@ public class Municipio
 
     public ICollection<Comerciante> Comerciantes { get; set; } = new List<Comerciante>();
 }
+

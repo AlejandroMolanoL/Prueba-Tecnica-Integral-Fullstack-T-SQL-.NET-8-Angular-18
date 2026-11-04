@@ -54,3 +54,4 @@ describe('LoginComponent', () => {
     expect(component.loginForm.valid).toBe(true);
   });
 });
+

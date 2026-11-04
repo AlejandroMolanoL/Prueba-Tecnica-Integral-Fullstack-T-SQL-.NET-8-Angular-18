@@ -14,3 +14,4 @@ public interface IApplicationDbContext
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<ReporteComercianteActivo>> ObtenerReporteComerciantesActivosRawAsync(CancellationToken cancellationToken = default);
 }
+

@@ -84,3 +84,4 @@ GO
 
 PRINT 'Script 04 ejecutado exitosamente: Funcion y Procedimiento de reporte creados.';
 GO
+

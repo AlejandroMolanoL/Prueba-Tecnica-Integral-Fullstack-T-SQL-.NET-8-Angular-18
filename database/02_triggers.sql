@@ -85,3 +85,4 @@ GO
 
 PRINT 'Script 02 ejecutado exitosamente: Triggers de auditoria creados.';
 GO
+

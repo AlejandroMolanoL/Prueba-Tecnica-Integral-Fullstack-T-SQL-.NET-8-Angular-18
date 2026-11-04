@@ -12,3 +12,4 @@ public interface IComercianteService
     Task<bool> EliminarAsync(int id, CancellationToken cancellationToken = default);
     Task<ComercianteDto> ModificarEstadoAsync(int id, string nuevoEstado, CancellationToken cancellationToken = default);
 }
+

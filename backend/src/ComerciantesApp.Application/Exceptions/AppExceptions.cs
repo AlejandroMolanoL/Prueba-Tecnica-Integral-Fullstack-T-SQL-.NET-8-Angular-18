@@ -36,3 +36,4 @@ public class ValidationAppException : AppException
     public ValidationAppException(string error) 
         : base("Se presentó un error de validación", 400, new List<string> { error }) { }
 }
+

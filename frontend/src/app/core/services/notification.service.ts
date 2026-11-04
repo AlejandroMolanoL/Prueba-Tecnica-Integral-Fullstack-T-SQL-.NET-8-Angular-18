@@ -45,3 +45,4 @@ export class NotificationService {
     this.toastsSignal.update(toasts => toasts.filter(t => t.id !== id));
   }
 }
+

@@ -102,3 +102,4 @@ Se incluye el archivo `Comerciantes_API.postman_collection.json` listo para impo
 docker build -t comerciantes-api .
 docker run -d -p 8080:8080 --name comerciantes-container comerciantes-api
 ```
+

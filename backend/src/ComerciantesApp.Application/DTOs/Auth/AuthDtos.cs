@@ -20,3 +20,4 @@ public class LoginResponseDto
     public DateTime Expiracion { get; set; }
     public UsuarioDto Usuario { get; set; } = null!;
 }
+

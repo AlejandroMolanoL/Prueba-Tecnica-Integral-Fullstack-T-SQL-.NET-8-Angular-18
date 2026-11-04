@@ -236,3 +236,4 @@ public class ComercianteService : IComercianteService
         return await ObtenerPorIdAsync(entidad.IdComerciante, cancellationToken);
     }
 }
+

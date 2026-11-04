@@ -68,3 +68,4 @@ describe('AuthStore', () => {
     expect(sessionStorage.getItem('ol_auth_token')).toBeNull();
   });
 });
+

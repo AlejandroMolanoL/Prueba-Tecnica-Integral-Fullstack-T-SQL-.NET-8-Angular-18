@@ -52,3 +52,4 @@ public class ComercianteFiltrosDto
     public DateTime? FechaRegistro { get; set; }
     public string? Estado { get; set; }
 }
+

@@ -115,3 +115,4 @@ GO
 
 PRINT 'Script 03 ejecutado exitosamente: Datos semilla insertados (2 Usuarios, 5 Comerciantes, 10 Establecimientos).';
 GO
+

@@ -125,3 +125,4 @@ export class ComerciantesListComponent implements OnInit {
     return pages;
   }
 }
+

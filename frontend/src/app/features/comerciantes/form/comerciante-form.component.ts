@@ -196,3 +196,4 @@ export class ComercianteFormComponent implements OnInit {
     this.router.navigate(['/comerciantes']);
   }
 }
+

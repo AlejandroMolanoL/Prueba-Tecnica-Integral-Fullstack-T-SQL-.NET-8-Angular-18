@@ -8,3 +8,4 @@ public class Rol
 
     public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }
+

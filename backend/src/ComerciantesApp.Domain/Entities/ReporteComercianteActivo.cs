@@ -12,3 +12,4 @@ public class ReporteComercianteActivo
     public decimal TotalIngresos { get; set; }
     public int CantidadEmpleados { get; set; }
 }
+

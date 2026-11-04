@@ -18,3 +18,4 @@ export class CurrencyCopPipe implements PipeTransform {
     return `$ ${parts[0]}`;
   }
 }
+

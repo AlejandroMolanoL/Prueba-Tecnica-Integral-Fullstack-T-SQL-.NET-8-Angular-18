@@ -6,3 +6,4 @@ public interface IMunicipioService
 {
     Task<IReadOnlyList<MunicipioDto>> ObtenerMunicipiosAsync(CancellationToken cancellationToken = default);
 }
+

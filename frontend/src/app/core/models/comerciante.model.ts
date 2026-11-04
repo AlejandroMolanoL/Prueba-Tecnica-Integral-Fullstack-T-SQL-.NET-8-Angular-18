@@ -39,3 +39,4 @@ export interface ComercianteFiltros {
   fechaRegistro?: string;
   estado?: string;
 }
+

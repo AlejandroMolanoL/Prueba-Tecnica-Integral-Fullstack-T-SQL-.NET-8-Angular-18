@@ -55,3 +55,4 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return (tokenString, expiration);
     }
 }
+

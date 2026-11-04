@@ -10,3 +10,4 @@ public class MunicipioDto
         ? Nombre 
         : $"{Nombre} ({Departamento})";
 }
+

@@ -11,3 +11,4 @@ public class Usuario
 
     public Rol Rol { get; set; } = null!;
 }
+

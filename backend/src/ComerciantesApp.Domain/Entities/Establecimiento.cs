@@ -13,3 +13,4 @@ public class Establecimiento
     public DateTime? FechaActualizacion { get; set; }
     public string? UsuarioActualizacion { get; set; }
 }
+

@@ -31,3 +31,4 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<LoginResponseDto>.SuccessResult(response, "Inicio de sesión exitoso."));
     }
 }
+

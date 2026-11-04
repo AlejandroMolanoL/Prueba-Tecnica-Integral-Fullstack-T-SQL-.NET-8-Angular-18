@@ -262,3 +262,4 @@ GO
 
 PRINT 'Inicializacion completa de ComerciantesDB ejecutada con exito.';
 GO
+

@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # 1. Base de Datos: Microsoft SQL Server 2022 Developer Edition
+  # ===========================================================================
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: comerciantes-database
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SqlServerPassword123*
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'SqlServerPassword123*' -C -Q 'SELECT 1' || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'SqlServerPassword123*' -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - comerciantes-network
+
+  # ===========================================================================
+  # 2. Inicializador de Base de Datos (Ejecuta 00_init_database.sql)
+  # ===========================================================================
+  database-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: comerciantes-db-init
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - MSSQL_SA_PASSWORD=SqlServerPassword123*
+    volumes:
+      - ./database/00_init_database.sql:/tmp/init.sql
+    entrypoint: >
+      /bin/bash -c "
+      echo 'Esperando estabilización de SQL Server...' &&
+      sleep 4 &&
+      echo 'Ejecutando script maestro de inicialización de Base de Datos...' &&
+      (/opt/mssql-tools18/bin/sqlcmd -S database -U sa -P 'SqlServerPassword123*' -C -i /tmp/init.sql || /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'SqlServerPassword123*' -i /tmp/init.sql) &&
+      echo 'Inicialización de Base de Datos completada con éxito!'"
+    networks:
+      - comerciantes-network
+
+  # ===========================================================================
+  # 3. Backend: Web API .NET 8 (Clean Architecture)
+  # ===========================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: comerciantes-backend
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=database,1433;Database=ComerciantesDB;User Id=sa;Password=SqlServerPassword123*;TrustServerCertificate=True;MultipleActiveResultSets=true;
+      - UseInMemoryDatabase=false
+      - Jwt__SecretKey=ClaveSecretaSuperSeguraParaEvaluacionTecnicaOLSoftware2026_JWT_Key!
+      - Jwt__Issuer=ComerciantesAppApi
+      - Jwt__Audience=ComerciantesAppClient
+    ports:
+      - "5000:8080"
+    networks:
+      - comerciantes-network
+
+  # ===========================================================================
+  # 4. Frontend: Aplicación Web Angular 18 (SPA con Nginx)
+  # ===========================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: comerciantes-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - comerciantes-network
+
+volumes:
+  sqlserver-data:
+
+networks:
+  comerciantes-network:
+    driver: bridge

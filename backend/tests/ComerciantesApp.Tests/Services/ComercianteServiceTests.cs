@@ -171,3 +171,4 @@ public class ComercianteServiceTests
         (await _context.Comerciantes.FindAsync(30)).Should().BeNull();
     }
 }
+

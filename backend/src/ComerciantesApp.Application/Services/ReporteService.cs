@@ -70,3 +70,4 @@ public class ReporteService : IReporteService
         return Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(sb.ToString())).ToArray();
     }
 }
+

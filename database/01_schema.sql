@@ -138,3 +138,4 @@ GO
 
 PRINT 'Script 01 ejecutado exitosamente: Base de datos, tablas e indices creados.';
 GO
+

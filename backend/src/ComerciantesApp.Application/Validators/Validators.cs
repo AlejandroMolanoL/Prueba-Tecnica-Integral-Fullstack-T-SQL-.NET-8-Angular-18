@@ -92,3 +92,4 @@ public class ActualizarEstadoValidator : AbstractValidator<ActualizarEstadoDto>
             .WithMessage("El estado debe ser 'Activo' o 'Inactivo'.");
     }
 }
+

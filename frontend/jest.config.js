@@ -8,3 +8,4 @@ module.exports = {
     '^@environments/(.*)$': '<rootDir>/src/environments/$1'
   }
 };
+

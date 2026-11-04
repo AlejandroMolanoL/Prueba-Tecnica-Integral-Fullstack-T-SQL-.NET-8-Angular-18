@@ -127,3 +127,4 @@ public class AuthServiceTests
         await Assert.ThrowsAsync<ValidationAppException>(() => _authService.LoginAsync(request));
     }
 }
+

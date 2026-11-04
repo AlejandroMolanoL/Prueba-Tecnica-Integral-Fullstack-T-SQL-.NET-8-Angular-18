@@ -17,3 +17,4 @@ public class Comerciante
 
     public ICollection<Establecimiento> Establecimientos { get; set; } = new List<Establecimiento>();
 }
+

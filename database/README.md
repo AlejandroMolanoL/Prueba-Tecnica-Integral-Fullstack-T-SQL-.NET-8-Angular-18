@@ -58,3 +58,4 @@ Los scripts están organizados y numerados secuencialmente para garantizar la co
 1. Abrir **SQL Server Management Studio (SSMS)** o **Azure Data Studio**.
 2. Conectarse a la instancia de SQL Server deseada.
 3. Ejecutar los scripts en orden (`01_schema.sql` -> `02_triggers.sql` -> `03_seed.sql` -> `04_stored_procedures_and_functions.sql`) o ejecutar directamente el script unificado `00_init_database.sql`.
+

@@ -30,3 +30,4 @@ public class MunicipiosController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<MunicipioDto>>.SuccessResult(municipios, "Municipios recuperados exitosamente."));
     }
 }
+

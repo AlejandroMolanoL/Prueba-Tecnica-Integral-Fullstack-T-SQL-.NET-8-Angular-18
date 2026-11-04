@@ -19,3 +19,4 @@ describe('CurrencyCopPipe', () => {
     expect(pipe.transform('no_numero')).toBe('$ 0');
   });
 });
+
