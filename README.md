@@ -1,6 +1,8 @@
 # Prueba Técnica Integral Fullstack (T-SQL - .NET 8 - Angular 18)
 ## Agremiación Nacional de Comercio | OL Software
 
+![alt text](frontend/public/screen.png)
+
 Solución completa, robusta y profesional desarrollada para la prueba técnica integral fullstack, estructurada rigurosamente en sus tres fases correspondientes:
 
 1. **`database/`** - Evaluación T-SQL Fullstack (Microsoft SQL Server 2019 / 2022)

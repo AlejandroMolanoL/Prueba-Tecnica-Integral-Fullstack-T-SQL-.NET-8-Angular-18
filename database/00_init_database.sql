@@ -170,8 +170,8 @@ GO
 SET IDENTITY_INSERT dbo.Usuarios ON;
 INSERT INTO dbo.Usuarios (IdUsuario, Nombre, CorreoElectronico, ContrasenaHash, IdRol, FechaCreacion)
 VALUES
-    (1, 'John Doe Administrador', 'admin@olsoftware.com', '$2a$11$0FfQ4zY0ZqHw0y4iU4uVyeY5K7g7oKvZpA1fQoI9mHjP2qBqG8n6e', 1, GETDATE()),
-    (2, 'Jane Smith Auxiliar', 'auxiliar@olsoftware.com', '$2a$11$1GgR5aZ1ArIx1z5jV5vWzfZ6L8h8pLwAqB2gRpJamIkQ3rCrH9o7f', 2, GETDATE());
+    (1, 'John Doe Administrador', 'admin@olsoftware.com', '$2a$11$CnCI5nM4H8gybJFi8pUuAu5iAxAvnMa7P82GgrlerXJUzJYT7kYNi', 1, GETDATE()),
+    (2, 'Jane Smith Auxiliar', 'auxiliar@olsoftware.com', '$2a$11$9O0AjErq5mvaKjNAO1QnxO5nDBAkhHPGH0iGG/nVG2fj/lWVpEkPy', 2, GETDATE());
 SET IDENTITY_INSERT dbo.Usuarios OFF;
 GO
 

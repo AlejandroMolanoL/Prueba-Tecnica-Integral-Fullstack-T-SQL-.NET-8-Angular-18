@@ -30,3 +30,4 @@ COPY --from=build /app/dist/comerciantes-frontend/browser ./
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
+

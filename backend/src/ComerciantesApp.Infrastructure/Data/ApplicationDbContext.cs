@@ -63,7 +63,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         // Comerciante
         modelBuilder.Entity<Comerciante>(entity =>
         {
-            entity.ToTable("Comerciantes");
+            entity.ToTable("Comerciantes", tb => tb.UseSqlOutputClause(false));
             entity.HasKey(c => c.IdComerciante);
             entity.Property(c => c.IdComerciante).ValueGeneratedOnAdd();
             entity.Property(c => c.NombreRazonSocial).HasMaxLength(150).IsRequired();
@@ -85,7 +85,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         // Establecimiento
         modelBuilder.Entity<Establecimiento>(entity =>
         {
-            entity.ToTable("Establecimientos");
+            entity.ToTable("Establecimientos", tb => tb.UseSqlOutputClause(false));
             entity.HasKey(e => e.IdEstablecimiento);
             entity.Property(e => e.IdEstablecimiento).ValueGeneratedOnAdd();
             entity.Property(e => e.Nombre).HasMaxLength(150).IsRequired();
